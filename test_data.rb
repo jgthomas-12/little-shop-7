@@ -124,3 +124,22 @@
 
 #   <%= f.submit "Submit New Item" %>
 # <% end %>
+
+
+
+# Remove line 2 from the view which displayed the image_tag (image) by referencing the POROs object @merchant_photo.url
+# line 2 in views merchants/show view page
+# <%=#image_tag @merchant_photo.url %>
+
+# Layouts/application.html view
+# This code displays the app_logo on every page by referencing the application controller
+# line 19 - 22 in views...application.html
+
+# <div class = "app_logo">
+  # <%= image_tag ApplicationController.app_logo %>
+  # <p><%= ApplicationController.app_logo_likes %> Likes!</p>
+# </div>
+
+# line 1 in view merchants/items/show page
+# displays photo from the items controller with image_tag (image_tag is a built in rails method I belive)
+# <%= image_tag @item_photo.url %>
