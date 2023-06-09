@@ -5,5 +5,5 @@ class Photo
   #   @url = data[:urls][:thumb]
   #   @data = data
   #   @likes = data[:likes]
-  end
+  # end
 end
