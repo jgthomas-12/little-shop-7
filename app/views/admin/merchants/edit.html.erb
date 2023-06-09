@@ -1,0 +1,18 @@
+<div class="admin_dashboard_header">
+  <h2>Admin Dashboard</h2>
+</div>
+<nav class="admin_dashboard_nav_bar">
+  <ul>
+    <li><%= link_to 'Dashboard', '/admin'%></li>
+    <li><%= link_to 'Merchants', '/admin/merchants' %></li>
+    <li><%= link_to 'Invoices', '/admin/invoices' %></li>
+  </ul>
+</nav>
+
+
+<h1>Merchant <%= @merchant.id %></h1>
+<%= form_with model: @merchant, url: admin_merchant_path(@merchant), method: "patch", local: true do |form| %>
+  <%= form.label :name, "Name:" %>
+  <%= form.text_field :name %>
+  <%= form.submit "Update Merchant" %>
+<% end %>

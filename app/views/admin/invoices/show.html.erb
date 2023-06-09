@@ -1,0 +1,40 @@
+<div class="admin_dashboard_header">
+  <h2>Admin Dashboard</h2>
+</div>
+<nav class="admin_dashboard_nav_bar">
+  <ul>
+    <li><%= link_to 'Dashboard', '/admin'%></li>
+    <li><%= link_to 'Merchants', '/admin/merchants' %></li>
+    <li><%= link_to 'Invoices', '/admin/invoices' %></li>
+  </ul>
+</nav>
+
+<center>Invoice <%= @invoice.id %></center>
+<section id="invoice_info">
+  <%= form_with url: admin_invoice_path(@invoice), method: :patch, id: "invoice-status" do |form|  %>
+    <%= form.label :status %>
+    <%= form.select :status, options_for_select(["in progress", "completed", "cancelled"], @invoice.status ) %>
+    <%= form.submit "Update Status" %>
+  <% end %>
+  <p>Created on: <%= @invoice.created_at.to_datetime.strftime("%A, %B %d, %Y") %></p>
+  <p>Revenue: <%= number_to_currency(@invoice.revenue, unit: "$", separator: ".", delimiter: "") %></p>
+  <p>Customer: <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></p>
+</section>
+<section id="item_table">
+  <h2>Items on Invoice</h2>
+  <table>
+    <tr>
+      <th>Item</th>
+      <th>Quantity</th>
+      <th>Unit Price</th>
+      <th>Status</th>
+    </tr>
+    <% @invoice.invoice_items.each do |invoice_item| %>
+      <tr>
+        <td><%= invoice_item.item.name %></td>
+        <td><%= invoice_item.quantity %></td>
+        <td><%= number_to_currency(invoice_item.unit_price, unit: "$", separator: ".", delimiter: "") %></td>
+        <td><%= invoice_item.status %></td>
+      </tr>
+    </section>
+  <% end %>

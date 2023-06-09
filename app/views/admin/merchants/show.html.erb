@@ -1,0 +1,16 @@
+<div class="admin_dashboard_header">
+  <h2>Admin Dashboard</h2>
+</div>
+<nav class="admin_dashboard_nav_bar">
+  <ul>
+    <li><%= link_to 'Dashboard', '/admin'%></li>
+    <li><%= link_to 'Merchants', '/admin/merchants' %></li>
+    <li><%= link_to 'Invoices', '/admin/invoices' %></li>
+  </ul>
+</nav>
+
+<% flash.each do |type, message| %>
+  <%= message %>
+<% end %>
+<h1><%= "#{@merchant.name}" %></h1>
+<%= link_to "Edit #{@merchant.name}", edit_admin_merchant_path(@merchant) %>

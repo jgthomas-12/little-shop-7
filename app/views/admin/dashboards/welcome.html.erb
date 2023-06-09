@@ -1,0 +1,94 @@
+<div class="admin_dashboard_header">
+  <h2>Admin Dashboard</h2>
+</div>
+
+<head>
+<style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  float: right;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #04AA6D;
+}
+
+.top_customers {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+.incomplete_invoices {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+.container{
+  display: flex;
+}
+
+.admin_dashboard_header {
+  display: flex;
+  align-items: center;
+}
+
+.admin_dashboard_nav_bar {
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+
+</style>
+</head>
+<body>
+<nav class="admin_dashboard_nav_bar">
+  <ul>
+    <li><%= link_to 'Dashboard', '/admin', class: 'active' %></li>
+    <li><%= link_to 'Merchants', '/admin/merchants' %></li>
+    <li><%= link_to 'Invoices', '/admin/invoices' %></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <div class="incomplete_invoices">
+    <h3>Incomplete Invoices</h3>
+    <% @invoices.incomp_invoices.each do |incomp_invoice| %>
+      <p>Invoice #<%= link_to "#{incomp_invoice.id}", "admin/invoices/#{incomp_invoice.id}" %> - <%=incomp_invoice.created_at.to_datetime.strftime("%A, %B %d, %Y")%></p>
+    <% end %>
+  </div>
+  <div class="top_customers">
+    <h3>Top Customers</h3>
+    <ol>
+      <% @customers.top_customers(5).each do |customer| %>
+        <li><%= customer.first_name %> <%=customer.last_name%> - <%=customer.customer_success_trans%> purchases</li><br>
+      <% end %>
+    </ol>
+  </div>
+
+</div>
+
+</body>
+

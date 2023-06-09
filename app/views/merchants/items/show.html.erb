@@ -1,0 +1,14 @@
+<nav>
+  <ul>
+    <li><%= link_to 'Dashboard', "/merchants/#{@merchant.id}" %></li>
+    <li><%= link_to 'My items', merchant_items_path((@merchant)) %></li>
+    <li><%= link_to 'My invoices', merchant_invoices_path((@merchant)) %></li>
+  </ul>
+</nav>
+
+<h4><%= @item.name %></h4>
+<p>Item Name: <%= @item.name %></p>
+<p>Item Description: <%= @item.description %></p>
+<p>Current Selling Price: <%= number_to_currency(@item.unit_price/100.00) %></p>
+
+<%= link_to "Edit #{@item.name}", "/merchants/#{@merchant.id}/items/#{@item.id}/edit" %>

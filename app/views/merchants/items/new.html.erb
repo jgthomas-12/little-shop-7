@@ -1,0 +1,11 @@
+
+
+<h3> Create New Item </h3>
+
+<%= render partial: "form", locals:{
+  path: "/merchants/#{@merchant.id}/items",
+  method: :post,
+  hidden_value: :merchant_id,
+  value: @merchant.id,
+  button_text: "Submit New Item"
+} %>

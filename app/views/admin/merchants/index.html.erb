@@ -1,0 +1,41 @@
+<div class="admin_dashboard_header">
+  <h2>Admin Dashboard</h2>
+</div>
+<nav class="admin_dashboard_nav_bar">
+  <ul>
+    <li><%= link_to 'Dashboard', '/admin'%></li>
+    <li><%= link_to 'Merchants', '/admin/merchants' %></li>
+    <li><%= link_to 'Invoices', '/admin/invoices' %></li>
+  </ul>
+</nav>
+
+
+<h1>Admin Merchants</h1>
+
+<%= link_to "Create New Merchant", new_admin_merchant_path, method: :get %>
+
+
+
+<div class="enabled_admin_merchants">
+  <h2>Enabled Merchants</h2>
+  <% @merchants.filter_enabled.each do |merchant| %>
+    <%= link_to "#{merchant.name}", admin_merchant_path(merchant) %>
+    <%= button_to "Disable #{merchant.name}", admin_merchant_path(id: "#{merchant.id}", status: 1), method: :patch %>
+  <% end %>
+</div>
+
+<div class="disabled_admin_merchants">
+  <h2>Disabled Merchants</h2>
+  <% @merchants.filter_disabled.each do |merchant| %>
+    <%= link_to "#{merchant.name}", admin_merchant_path(merchant) %>
+    <%= button_to "Enable #{merchant.name}", admin_merchant_path(id: "#{merchant.id}", status: 0), method: :patch %>
+  <% end %>
+</div>
+
+<div class="admin_top_merchants_by_revenue">
+<h2>Top Merchants</h2>
+<ol>
+<% @merchants.top_5_by_revenue.each do |merchant| %>
+  <li><%= link_to "#{merchant.name}", admin_merchant_path(merchant) %> <%=" - #{number_to_currency(merchant.revenue / 100, unit: "$", separator: ".", delimiter: ",")} in sales" %></li>
+  <p><%= "Top Day for #{merchant.name} was #{merchant.best_day}" %></p>
+<% end %>
