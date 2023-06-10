@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
 
-  context "relationships" do 
+  context "relationships" do
     it { should have_many :invoices }
     it { should have_many(:invoice_items).through(:invoices)}
     it { should have_many(:transactions).through(:invoices)}
   end
 
-  context "validations" do 
+  context "validations" do
     it {should validate_presence_of(:first_name)}
     it {should validate_presence_of(:last_name)}
   end
@@ -76,7 +76,7 @@ RSpec.describe Customer, type: :model do
     @invoice_item_7 = create(:invoice_item, invoice: @invoice_7, item: @item_7)
     @invoice_item_8 = create(:invoice_item, invoice: @invoice_8, item: @item_8)
     @invoice_item_9 = create(:invoice_item, invoice: @invoice_9, item: @item_9)
-    
+
     @transaction_1 = create(:transaction, invoice: @invoice_1, result: 0)
     @transaction_2 = create(:transaction, invoice: @invoice_2, result: 0)
     @transaction_3 = create(:transaction, invoice: @invoice_3, result: 0)
@@ -94,8 +94,8 @@ RSpec.describe Customer, type: :model do
     @transaction_15 = create(:transaction, invoice: @invoice_15, result: 0)
   end
 
-  describe "class methods" do 
-    describe "#top_customers(limit)" do 
+  describe "class methods" do
+    describe "#top_customers(limit)" do
       it "it lists the customers with the most successful transactions in descending order" do
         expect(Customer.top_customers(5)).to eq([@customer_3, @customer_1, @customer_5, @customer_4, @customer_2])
       end
@@ -107,24 +107,23 @@ RSpec.describe Customer, type: :model do
         expect(top_4_customers).to eq([@customer_3, @customer_1, @customer_5, @customer_4])
       end
 
-      it "excludes customers with zero transactions" do 
+      it "excludes customers with zero transactions" do
         top_6_customers = Customer.top_customers(6)
         expect(top_6_customers).not_to include(@customer_6)
 
         expect(top_6_customers).to eq([@customer_3, @customer_1, @customer_5, @customer_4, @customer_2])
       end
-
     end
   end
 
-  describe "instance methods" do 
-    describe "#customer_success_trans" do 
+  describe "instance methods" do
+    describe "#customer_success_trans" do
       it "it calculates the number of successful transactions for a customer" do
         expect(@customer_3.customer_success_trans).to eq(5)
         expect(@customer_1.customer_success_trans).to eq(4)
         expect(@customer_5.customer_success_trans).to eq(3)
         expect(@customer_4.customer_success_trans).to eq(2)
-        expect(@customer_2.customer_success_trans).to eq(1)        
+        expect(@customer_2.customer_success_trans).to eq(1)
       end
     end
   end
