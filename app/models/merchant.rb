@@ -34,4 +34,12 @@ class Merchant < ApplicationRecord
     day = invoice_items.joins(invoice: :transactions).select('invoices.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue').where('transactions.result = 0').group('invoices.id').order('revenue desc').limit(1).first.created_at
     day.to_datetime.strftime("%Y-%m-%d")
   end
+
+  def active_coupons_at_max?(max)
+    if self.coupons.where(status: "active").count >= 5
+      true
+    else
+      false
+    end
+  end
 end
