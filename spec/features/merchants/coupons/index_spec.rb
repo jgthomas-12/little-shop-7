@@ -7,11 +7,21 @@ RSpec.describe "merchants/:id/coupons" do
 
       let!(:coupon_1) { create(:coupon, merchant: merchant_1) }
       let!(:coupon_2) { create(:coupon, merchant: merchant_1) }
+      let!(:coupon_3) { create(:coupon, merchant: merchant_1) }
+      let!(:coupon_4) { create(:coupon, merchant: merchant_1) }
+      let!(:coupon_5) { create(:coupon, merchant: merchant_1) }
+
+      # Coupons - User Story 1 (display)
 
       it "displays the coupon names and amount off for each merchant" do
-        visit merchant_coupons_path(merchant_1)
         coupon_1.update(status: 1)
         coupon_2.update(status: 1)
+        coupon_3.update(status: 0)
+        coupon_4.update(status: 0)
+        coupon_5.update(status: 0)
+        visit merchant_coupons_path(merchant_1)
+
+        expect(page).to have_content("#{merchant_1.name} Coupins")
 
         within ".active_coupons" do
           expect(page).to have_content("Active Coupons")
@@ -23,12 +33,13 @@ RSpec.describe "merchants/:id/coupons" do
           expect(page).to have_content(coupon_2.discount_type)
           expect(page).to have_content(coupon_2.discount_amount)
         end
+
       end
 
       it "links to the coupon show page from a link on the coupon name" do
-        visit merchant_coupons_path(merchant_1)
         coupon_1.update(status: 1)
         coupon_2.update(status: 1)
+        visit merchant_coupons_path(merchant_1)
 
         within ".active_coupons" do
           expect(page).to have_link(coupon_1.name)
@@ -44,6 +55,32 @@ RSpec.describe "merchants/:id/coupons" do
         end
         expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_2))
       end
+
+      # Coupons - User Story 2 (link)
+
+      it "has a link to create a new coupon" do
+        visit merchant_coupons_path(merchant_1)
+        click_link "Create New Coupon"
+        expect(current_path).to eq(new_merchant_coupon_path(merchant_1))
+      end
+
+      # xit "can only display 5 active coupons" do
+      #   coupon_1.update(status: 1)
+      #   coupon_2.update(status: 1)
+      #   coupon_3.update(status: 1)
+      #   coupon_4.update(status: 1)
+      #   coupon_5.update(status: 1)
+      #   visit merchant_coupons_path(merchant_1)
+
+      #   within ".active_coupons" do
+      #     expect(page).to have_content(coupon_1.name)
+      #     expect(page).to have_content(coupon_2.name)
+      #     expect(page).to have_content(coupon_3.name)
+      #     expect(page).to have_content(coupon_4.name)
+      #     expect(page).to have_content(coupon_5.name)
+      #     expect(page).to_not have_content(coupon_6.name)
+      #   end
+      # end
     end
   end
 

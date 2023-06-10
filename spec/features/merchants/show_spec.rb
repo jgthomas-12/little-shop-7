@@ -143,13 +143,12 @@ RSpec.describe "/merchants/:id/dashboard" do
         expect("#{invoice_8.id}").to appear_before("#{invoice_7.id}")
       end
 
+      # Coupons - User Story 1 (link)
+
       it "has a link to the coupons index page" do
         visit merchant_path(merchant_1)
         click_link "My Coupons"
         expect(current_path).to eq(merchant_coupons_path(merchant_1))
-        # expect page to have link to "My Coupons"
-        # click link and go to merchant coupons need to establish routes
-        # expect current path to be coupons index page
       end
     end
   end

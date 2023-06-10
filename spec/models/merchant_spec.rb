@@ -141,6 +141,16 @@ RSpec.describe Merchant, type: :model do
       let!(:transaction_17) { create(:transaction, invoice: invoice_17, result: 0) }
       let!(:transaction_18) { create(:transaction, invoice: invoice_18, result: 0) }
 
+      let!(:coupon_1) { create(:coupon, merchant: merchant_1) }
+      let!(:coupon_2) { create(:coupon, merchant: merchant_1) }
+      let!(:coupon_3) { create(:coupon, merchant: merchant_1) }
+      let!(:coupon_4) { create(:coupon, merchant: merchant_1) }
+      let!(:coupon_5) { create(:coupon, merchant: merchant_1) }
+
+      let!(:coupon_6) { create(:coupon, merchant: merchant_2) }
+      let!(:coupon_7) { create(:coupon, merchant: merchant_2) }
+
+
       it "can return the top 5 merchants by revenue" do
         original = [merchant_1, merchant_2, merchant_3, merchant_4, merchant_5, merchant_6]
         expected = [merchant_6, merchant_5, merchant_4, merchant_2, merchant_1]
@@ -152,6 +162,22 @@ RSpec.describe Merchant, type: :model do
       it "can return a single merchants best day in revenue" do
         expect(merchant_6.best_day).to eq(invoice_18.created_at.to_datetime.strftime("%Y-%m-%d"))
       end
+
+
+    describe "#active_coupons_at_max?" do
+      it "counts the number of coupos with and active status" do
+        coupon_1.update(status: 1)
+        coupon_2.update(status: 1)
+        coupon_3.update(status: 1)
+        coupon_4.update(status: 1)
+        coupon_5.update(status: 1)
+        coupon_6.update(status: 1)
+        coupon_7.update(status: 1)
+
+        expect(merchant_1.active_coupons_at_max?(5)).to eq(true)
+        expect(merchant_2.active_coupons_at_max?(5)).to eq(false)
+      end
+    end
     end
   end
 
@@ -221,5 +247,6 @@ RSpec.describe Merchant, type: :model do
         expect(@merchant_4.unique_invoices.count).to eq(6)
       end
     end
+
   end
 end
