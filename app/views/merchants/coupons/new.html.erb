@@ -1,0 +1,21 @@
+<h3> Create New Coupon </h3>
+
+<%= form_with model: @coupon, url: merchant_coupons_path(@merchant), method: :post, local: true do |f| %>
+  <%= f.label :name, "Name:" %>
+  <%= f.text_field :name %>
+
+  <%= f.label :code, "Code:" %>
+  <%= f.text_field :code %>
+
+  <%= f.label :status, "Status:" %>
+  <%= f.text_field :status %>
+
+  <%= f.label :discount_type, "Discount Type:" %>
+  <%= f.select :discount_type, options_for_select([["Percent", "percent"], ["Amount Off", "currency"]]) %>
+
+  <%= f.label :discount_amount, "Discount Amount:" %>
+  <%= f.number_field :discount_amount, in: 1..100%>
+
+  <%= f.submit "Submit New Coupon" %>
+
+<% end %>
