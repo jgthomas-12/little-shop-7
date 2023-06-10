@@ -1,0 +1,12 @@
+<h3> <%= @merchant.name %> Coopins </h3>
+
+
+
+<div class="active_coupons">
+<h4> Active Coupons </h4>
+<% @merchant.coupons.each do |c| %>
+  <p><%= link_to "#{c.name}", merchant_coupon_path(@merchant, c.id) %></p>
+  <p><%= c.discount_type %></p>
+  <p><%= c.discount_amount %></p>
+<% end %>
+</div>

@@ -67,7 +67,7 @@ RSpec.describe "/merchants/:id/dashboard" do
       it "links to the merchants items index" do
         # visit "/merchants/#{merchant_1.id}/dashboard"
         visit merchant_path(merchant_1)
-        
+
         click_link "My Items"
         # expect(current_path).to eq("/merchants/#{merchant_1.id}/items")
         expect(current_path).to eq(merchant_items_path(merchant_1))
@@ -82,7 +82,6 @@ RSpec.describe "/merchants/:id/dashboard" do
       end
 
       it "links to the merchants invoices index" do
-        # visit "/merchants/#{merchant_1.id}/dashboard"
         visit merchant_path(merchant_1)
 
         click_link "My Invoices"
@@ -142,6 +141,15 @@ RSpec.describe "/merchants/:id/dashboard" do
         visit merchant_path(merchant_3)
 
         expect("#{invoice_8.id}").to appear_before("#{invoice_7.id}")
+      end
+
+      it "has a link to the coupons index page" do
+        visit merchant_path(merchant_1)
+        click_link "My Coupons"
+        expect(current_path).to eq(merchant_coupons_path(merchant_1))
+        # expect page to have link to "My Coupons"
+        # click link and go to merchant coupons need to establish routes
+        # expect current path to be coupons index page
       end
     end
   end
