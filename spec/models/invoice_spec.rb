@@ -4,6 +4,7 @@ RSpec.describe Invoice, type: :model do
 
   context "relationship" do
     it { should belong_to :customer }
+    it { should belong_to(:coupon).optional }
     it { should have_many :invoice_items }
     it { should have_many(:items).through(:invoice_items) }
     it { should have_many :transactions }
@@ -43,10 +44,10 @@ RSpec.describe Invoice, type: :model do
     end
   end
 
-  describe "class methods" do 
-    before(:each) do 
+  describe "class methods" do
+    before(:each) do
       @customer_2 = create(:customer)
-      
+
       @invoice_5 = create(:invoice, customer_id: @customer.id, status: 2)
       @invoice_6 = create(:invoice, customer_id: @customer.id, status: 2)
       @invoice_7 = create(:invoice, customer_id: @customer.id, status: 2)
@@ -77,19 +78,19 @@ RSpec.describe Invoice, type: :model do
       @invoice_item_14 = create(:invoice_item, invoice_id: @invoice_10.id, item_id: @item_5.id, unit_price: 124, quantity: 1, status:0)
     end
 
-    describe ".incomp_invoices" do 
+    describe ".incomp_invoices" do
       it "returns a list of all invoices that have items that have not shipped" do
         expect(Invoice.incomp_invoices).to eq([@invoice_5, @invoice_6, @invoice_9, @invoice_10])
       end
 
-      it "excludes invoices if all its items have been marked as shipped" do 
+      it "excludes invoices if all its items have been marked as shipped" do
         expect(Invoice.incomp_invoices).not_to include(@invoice_1, @invoice_2, @invoice_7, @invoice_8)
       end
 
-      it "excludes invoices that have no items" do 
+      it "excludes invoices that have no items" do
         expect(@invoice_3.items).to eq([])
         expect(Invoice.incomp_invoices).not_to include(@invoice_3)
-        
+
         expect(@invoice_4.items).to eq([])
         expect(Invoice.incomp_invoices).not_to include(@invoice_4)
       end
