@@ -22,7 +22,7 @@ class Merchants::CouponsController < ApplicationController
       redirect_to merchant_coupons_path(@merchant)
     else
       redirect_to new_merchant_coupon_path(@merchant)
-      flash[:alert] = "Please fill out all fields"
+      flash[:alert] = "Please fill out all fields and make sure code is unique"
     end
   end
 

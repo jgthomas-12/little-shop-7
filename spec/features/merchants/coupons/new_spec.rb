@@ -63,7 +63,7 @@ RSpec.describe "/merchants/:id/coupons/new" do
         fill_in("Name:", with: "THIS DEAL ROCKS")
         click_button "Submit New Coupon"
         expect(current_path).to eq(new_merchant_coupon_path(merchant_1))
-        expect(page).to have_content("Please fill out all fields")
+        expect(page).to have_content("Please fill out all fields and make sure code is unique")
 
       end
 
@@ -88,20 +88,21 @@ RSpec.describe "/merchants/:id/coupons/new" do
         expect(Coupon.all.count).to eq(5)
       end
 
-      xit "will not create a coupon without a unique code" do
-        coupon_1.update(code: fkfacbot1)
+      it "will not create a coupon without a unique code" do
+        coupon_1.update(status: 1)
+        coup_code = coupon_1.code
 
         visit new_merchant_coupon_path(merchant_1)
 
         fill_in("Name:", with: "No Longer Rockin")
-        fill_in("Code:", with: "fkfacbot1")
+        fill_in("Code:", with: coup_code )
         fill_in("Status:", with: "active")
         select( "Amount Off", from: "Discount Type:")
         fill_in("Discount Amount:", with: 20)
 
         click_button "Submit New Coupon"
         expect(current_path).to eq(new_merchant_coupon_path(merchant_1))
-        expect(page).to have_content("Code needs to be unique")
+        expect(page).to have_content("Please fill out all fields and make sure code is unique")
       end
     end
   end
