@@ -143,3 +143,6 @@
 # line 1 in view merchants/items/show page
 # displays photo from the items controller with image_tag (image_tag is a built in rails method I belive)
 # <%= image_tag @item_photo.url %>
+
+
+# <%= f.hidden_field :merchant_id, merchant: @merchant.id %>
