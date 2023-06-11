@@ -12,6 +12,7 @@ RSpec.describe "merchants/:id/coupons" do
       let!(:coupon_5) { create(:coupon, merchant: merchant_1) }
 
       # Coupons - User Story 1 (display)
+      # User Story 6 - I believe due to the way I've set this up, it covers both stories.
 
       it "displays the coupon names and amount off for each merchant" do
         coupon_1.update(status: 1)

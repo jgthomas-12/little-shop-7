@@ -15,7 +15,7 @@ RSpec.describe "/merchants/:id/coupons/new" do
       it "displays a form to create a new coupon" do
         coupon_4.update(status: 0)
         coupon_5.update(status: 0)
-        
+
         visit new_merchant_coupon_path(merchant_1)
 
         expect(page).to have_content("Create New Coupon")
@@ -66,7 +66,6 @@ RSpec.describe "/merchants/:id/coupons/new" do
         click_button "Submit New Coupon"
         expect(current_path).to eq(new_merchant_coupon_path(merchant_1))
         expect(page).to have_content("Please fill out all fields and make sure code is unique")
-
       end
 
       it "will not allow a merchant to create a new invoice with active status if there are five already" do

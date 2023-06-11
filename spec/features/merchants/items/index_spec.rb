@@ -63,7 +63,6 @@ RSpec.describe "/merchants/:merchant_id/items" do
       # User Story 6 - Merchant Items Index Page
 
       it "displays a list of names of all that merchants items" do
-        # visit "/merchants/#{merchant_1.id}/items"
         visit merchant_items_path(merchant_1)
 
         within ".enabled-items" do
@@ -76,7 +75,6 @@ RSpec.describe "/merchants/:merchant_id/items" do
           expect(page).to_not have_content(item_11.name)
         end
 
-        # visit "/merchants/#{merchant_2.id}/items"
         visit merchant_items_path(merchant_2)
 
         within ".disabled-items" do
@@ -142,7 +140,6 @@ RSpec.describe "/merchants/:merchant_id/items" do
           expect(page).to_not have_button("Disable #{item_3.name}")
 
           click_button "Enable #{item_12.name}"
-
         end
 
         within ".enabled-items" do
@@ -157,7 +154,6 @@ RSpec.describe "/merchants/:merchant_id/items" do
       # User Story 11 - Merchant Item Create (link)
 
       it "has a link to create a new item" do
-
         visit merchant_items_path(merchant_1)
 
         click_link "Create New Item"
@@ -187,7 +183,6 @@ RSpec.describe "/merchants/:merchant_id/items" do
       end
 
       it "displays each name as a link in the top 5 merchants by revenue" do
-
         visit merchant_items_path(merchant_1)
 
         within ".top-five-items" do
@@ -208,7 +203,6 @@ RSpec.describe "/merchants/:merchant_id/items" do
       # 13. Merchant Items Index: Top Item's Best Day
 
       it "displays the date with most sales for each item next to each of the 5 most popular items" do
-
         visit merchant_items_path(merchant_1)
 
         within ".top-five-items" do
@@ -219,8 +213,6 @@ RSpec.describe "/merchants/:merchant_id/items" do
           expect(page).to have_content("Top selling date for #{item_5.name} was #{invoice_10.created_at.to_datetime.strftime("%Y-%m-%d")}")
         end
       end
-
-
     end
   end
 end
