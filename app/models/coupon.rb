@@ -17,8 +17,10 @@ class Coupon < ApplicationRecord
  end
 
  def usage_count
- invoices.where(status: "completed").count
+  invoices.where(status: "completed").count
  end
 
-
+ def pending_invoices?
+  return true if invoices.where(status: "in progress").count >= 1
+ end
 end
