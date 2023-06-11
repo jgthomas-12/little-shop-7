@@ -29,14 +29,13 @@ RSpec.describe Coupon, type: :model do
     describe "class methods" do
       describe ".filter_active" do
         it "returns coupons with an active status" do
-          coupon_1.update(status: 1)
-          coupon_2.update(status: 1)
-          coupon_3.update(status: 0)
-          coupon_4.update(status: 1)
-          coupon_5.update(status: 1)
+          coupon_1.update(name: "A", status: 1)
+          coupon_2.update(name: "B", status: 1)
+          coupon_3.update(name: "C", status: 0)
+          coupon_4.update(name: "D", status: 1)
+          coupon_5.update(name: "E", status: 1)
 
-
-          expect(merchant_1.coupons.filter_active).to eq([coupon_1, coupon_2, coupon_4, coupon_5])
+          expect(merchant_1.coupons.filter_active.sort).to eq([coupon_1, coupon_2, coupon_4, coupon_5])
         end
       end
     end

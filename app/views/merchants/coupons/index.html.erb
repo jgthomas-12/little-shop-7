@@ -10,3 +10,12 @@
   <p><%= c.discount_amount %></p>
 <% end %>
 </div>
+
+<div class="inactive_coupons">
+<h4> Inactive Coupons </h4>
+<% @merchant.coupons.filter_inactive.each do |c| %>
+  <p><%= link_to "#{c.name}", merchant_coupon_path(@merchant, c.id) %></p>
+  <p><%= c.discount_type %></p>
+  <p><%= c.discount_amount %></p>
+<% end %>
+</div>
