@@ -7,7 +7,7 @@ class Invoice < ApplicationRecord
   has_many :invoice_items
   has_many :items, through: :invoice_items
 
-  validates_presence_of :status 
+  validates_presence_of :status
 
   enum status: ["cancelled", "completed", "in progress"] # can = 0 com = 1 in p = 2 need to remigrate and make integers
 
@@ -19,5 +19,21 @@ class Invoice < ApplicationRecord
   #instance methods
   def revenue
     invoice_items.sum("unit_price * quantity")
+  end
+
+  def grand_total
+    revenue - coupon_discount
+  end
+
+  def coupon_discount
+    if coupon.nil?
+      0
+    elsif coupon.discount_type == "percent"
+        (revenue * coupon.discount_amount / 100).round(2)
+    elsif coupon.discount_type == "currency"
+        coupon.discount_amount
+    else
+      0
+    end
   end
 end
