@@ -150,3 +150,15 @@
 # <% @coupon.invoices.each do |i| %>
 #   <% require 'pry'; binding.pry %>
 #   <% end %>
+
+# <% if @coupon.status == "active" && @coupon.pending_invoices? %>
+#   <p><%= button_to "Deactivate #{@coupon.name}", merchant_coupon_path(@merchant, @coupon, status: 0), method: :patch %></p>
+# <% elsif @coupon.status == "active" && @coupon.pending_invoices? == true %>
+#   <% flash[:alert] = "Cannot deactivate coupon with pending invoices" %>
+# <% else %>
+#   <p><%= button_to "Activate #{@coupon.name}", merchant_coupon_path(@merchant, @coupon, status: 1), method: :patch %></p>
+# <% end %>
+
+# <% if @coupon.pending_invoices? %>
+# <% flash[:alert] = "Cannot deactivate coupon with pending invoices" %>
+# <% end %>
