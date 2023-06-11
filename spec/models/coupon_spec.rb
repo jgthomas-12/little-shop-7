@@ -24,11 +24,12 @@ RSpec.describe Coupon, type: :model do
     let!(:coupon_1) { create(:coupon, merchant: merchant_1) }
     let!(:coupon_2) { create(:coupon, merchant: merchant_1) }
     let!(:coupon_3) { create(:coupon, merchant: merchant_1) }
+
     let!(:coupon_4) { create(:coupon, merchant: merchant_1) }
     let!(:coupon_5) { create(:coupon, merchant: merchant_1) }
 
 
-    let!(:coupon_6) { Coupon.create(name: "Let's Try This", code: "six666", status: "active", discount_type: "percent", discount_amount: 10, merchant_id: merchant_1.id) }
+    let!(:coupon_6) { Coupon.create(name: "Let's Try This", code: "five66", status: "active", discount_type: "percent", discount_amount: 10, merchant_id: merchant_1.id) }
 
     let!(:customer_1) { create(:customer) }
     let!(:invoice_1) { create(:invoice, customer_id: customer_1.id, status: 1, coupon_id: coupon_6.id) } # 1 = completed
@@ -67,6 +68,19 @@ RSpec.describe Coupon, type: :model do
       describe "#usage_count" do
         it "returns the amount of times a coupon has been used sucessfully" do
           expect(coupon_6.usage_count).to eq(3)
+        end
+      end
+
+      describe "#pending_invoices?" do
+        it "returns true if the coupon has an invoice with an in progress status" do
+          #come back and refactor a test to be out of order to be make the test more robust
+
+          expect(coupon_1.pending_invoices?).to eq(nil)
+          expect(coupon_2.pending_invoices?).to eq(nil)
+          expect(coupon_3.pending_invoices?).to eq(nil)
+          expect(coupon_4.pending_invoices?).to eq(nil)
+          expect(coupon_5.pending_invoices?).to eq(nil)
+          expect(coupon_6.pending_invoices?).to eq(true)
         end
       end
     end
