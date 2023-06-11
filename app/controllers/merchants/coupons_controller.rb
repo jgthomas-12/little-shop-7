@@ -30,7 +30,10 @@ class Merchants::CouponsController < ApplicationController
   def update
     merchant = Merchant.find(params[:merchant_id])
     coupon = Coupon.find(params[:id])
-    if params[:status] == "0"
+    if params[:status] == "0" && coupon.pending_invoices?
+      redirect_to merchant_coupon_path(merchant, coupon)
+      flash[:alert] = "Cannot deactivate coupon with pending invoices"
+    else 
       coupon.update(status: 0)
       redirect_to merchant_coupon_path(merchant, coupon)
     end
