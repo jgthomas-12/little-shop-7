@@ -35,6 +35,7 @@ RSpec.describe "merchants/:id/coupons/:id" do
         expect(page).to have_content("Code: #{coupon_1.code}")
         expect(page).to have_content("Discount Type: #{coupon_1.discount_type}")
         expect(page).to have_content("Discount Amount: #{coupon_1.discount_amount}")
+        expect(page).to have_content("Status: #{coupon_1.status}")
         expect(page).to have_content("Number of Times Used: #{coupon_1.usage_count}")
       end
 
@@ -64,18 +65,47 @@ RSpec.describe "merchants/:id/coupons/:id" do
 
         expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_1))
 
-        expect(page).to have_button("Activate #{coupon_1.name}")
+        expect(page).to have_button("Deactivate #{coupon_1.name}")
 
         visit merchant_coupons_path(merchant_1)
 
         within ".active_coupons" do
+          expect(page).to have_content(coupon_1.name)
           expect(page).to have_content(coupon_2.name)
         end
 
         within ".inactive_coupons" do
-          expect(page).to have_content(coupon_1.name)
           expect(page).to have_content(coupon_3.name)
         end
+
+      end
+
+      it "will not deactivate a coupon with pending invoices and instead redirects to the coupon show page and displays a flash message" do
+        coupon_2.update(status: 1)
+
+        visit merchant_coupons_path(merchant_1)
+
+        within ".active_coupons" do
+          expect(page).to have_content(coupon_1.name)
+          expect(page).to have_content(coupon_2.name)
+          click_link coupon_1.name
+        end
+
+        expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_1))
+        click_button "Deactivate #{coupon_1.name}"
+
+        expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_1))
+
+        expect(page).to have_content("Cannot deactivate coupon with pending invoices")
+
+        visit merchant_coupons_path(merchant_1)
+
+
+        within ".active_coupons" do
+          expect(page).to have_content(coupon_1.name)
+          expect(page).to have_content(coupon_2.name)
+        end
+
       end
     end
   end
