@@ -78,7 +78,7 @@ RSpec.describe "/merchants/:merchant_id/items" do
 
         # visit "/merchants/#{merchant_2.id}/items"
         visit merchant_items_path(merchant_2)
-      
+
         within ".disabled-items" do
           expect(page).to have_content(item_11.name)
           expect(page).to_not have_content(item_1.name)
@@ -165,18 +165,6 @@ RSpec.describe "/merchants/:merchant_id/items" do
       end
 
     #  User Story 12 - Merchant Items Index: 5 most popular items
-    #   As a merchant
-    #   When I visit my items index page
-    #   Then I see the names of the top 5 most popular items ranked by total revenue generated
-    #   And I see that each item name links to my merchant item show page for that item
-    #   And I see the total revenue generated next to each item name
-
-    #   Notes on Revenue Calculation:
-
-    #   Only invoices with at least one successful transaction should count towards revenue
-    #   Revenue for an invoice should be calculated as the sum of the revenue of all invoice items
-    #   Revenue for an invoice item should be calculated as the invoice item unit price multiplied
-    #   by the quantity (do not use the item unit price)
 
       it "displays the top 5 most popular items ranked by total revenue for the one merchant" do
         visit merchant_items_path(merchant_1)
@@ -202,7 +190,6 @@ RSpec.describe "/merchants/:merchant_id/items" do
 
         visit merchant_items_path(merchant_1)
 
-
         within ".top-five-items" do
           expect(page).to have_link("#{item_1.name}")
           expect(page).to have_link("#{item_2.name}")
@@ -220,12 +207,6 @@ RSpec.describe "/merchants/:merchant_id/items" do
 
       # 13. Merchant Items Index: Top Item's Best Day
 
-      # As a merchant
-      # When I visit my items index page
-      # Then next to each of the 5 most popular items I see the date with the most sales for each item.
-      # And I see a label “Top selling date for <item name> was <date with most sales>"
-
-      # Note: use the invoice date. If there are multiple days with equal number of sales, return the most recent day.
       it "displays the date with most sales for each item next to each of the 5 most popular items" do
 
         visit merchant_items_path(merchant_1)
@@ -238,6 +219,8 @@ RSpec.describe "/merchants/:merchant_id/items" do
           expect(page).to have_content("Top selling date for #{item_5.name} was #{invoice_10.created_at.to_datetime.strftime("%Y-%m-%d")}")
         end
       end
+
+
     end
   end
 end

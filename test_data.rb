@@ -146,3 +146,7 @@
 
 
 # <%= f.hidden_field :merchant_id, merchant: @merchant.id %>
+
+# <% @coupon.invoices.each do |i| %>
+#   <% require 'pry'; binding.pry %>
+#   <% end %>

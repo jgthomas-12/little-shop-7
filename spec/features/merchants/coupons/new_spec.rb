@@ -13,7 +13,9 @@ RSpec.describe "/merchants/:id/coupons/new" do
 
 
       it "displays a form to create a new coupon" do
-
+        coupon_4.update(status: 0)
+        coupon_5.update(status: 0)
+        
         visit new_merchant_coupon_path(merchant_1)
 
         expect(page).to have_content("Create New Coupon")
