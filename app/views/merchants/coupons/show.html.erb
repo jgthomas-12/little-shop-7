@@ -5,3 +5,10 @@
 <p>Discount Type: <%= @coupon.discount_type %></p>
 <p>Discount Amount: <%= @coupon.discount_amount %></p>
 <p>Number of Times Used: <%= @coupon.usage_count %></p>
+
+
+<% if @coupon.status == "active" %>
+  <p><%= button_to "Deactivate #{@coupon.name}", merchant_coupon_path(@merchant, @coupon, status: 0), method: :patch %></p>
+<% else %>
+  <p><%= button_to "Activate #{@coupon.name}", merchant_coupon_path(@merchant, @coupon, status: 1), method: :patch %></p>
+<% end %>
