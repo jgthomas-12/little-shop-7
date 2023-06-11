@@ -12,6 +12,10 @@ class Coupon < ApplicationRecord
      where(status: "active")
   end
 
+  def self.filter_inactive
+    where(status: "inactive")
+ end
+
 
 
 end
