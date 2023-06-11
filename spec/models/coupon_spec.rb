@@ -61,8 +61,20 @@ RSpec.describe Coupon, type: :model do
           expect(merchant_1.coupons.filter_active.sort).to eq([coupon_1, coupon_2, coupon_4, coupon_5, coupon_6])
         end
       end
-    end
 
+      describe ".filter_inactive" do
+        it "returns coupons with an inactive status" do
+          coupon_1.update(name: "A", status: 1)
+          coupon_2.update(name: "B", status: 1)
+          coupon_3.update(name: "C", status: 0)
+          coupon_4.update(name: "D", status: 1)
+          coupon_5.update(name: "E", status: 1)
+
+          expect(merchant_1.coupons.filter_inactive.sort).to eq([coupon_3])
+        end
+      end
+
+    end
 
     describe "instance methods" do
       describe "#usage_count" do
