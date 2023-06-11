@@ -27,6 +27,8 @@ RSpec.describe "merchants/:id/coupons/:id" do
       let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_2, item: item_2, unit_price: 1000, quantity: 1) }
       let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }
 
+      # User Story 3 - Merchant Coupon Show Page
+
       it "displays the coupons name, code, discout type and coupon status" do
 
         visit merchant_coupon_path(merchant_1, coupon_1)
@@ -39,6 +41,8 @@ RSpec.describe "merchants/:id/coupons/:id" do
         expect(page).to have_content("Number of Times Used: #{coupon_1.usage_count}")
       end
 
+      # User Story 4 - Merchant Coupon Dectivate
+      
       # Tested the display for active and inactive within blocks in story 1
       it "displays a deactivate button for activated coupons" do
         coupon_2.update(status: 1)
@@ -56,29 +60,31 @@ RSpec.describe "merchants/:id/coupons/:id" do
         end
 
         within ".active_coupons" do
-          click_link coupon_1.name
+          click_link coupon_2.name
         end
 
-        expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_1))
+        expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_2))
 
-        click_button "Deactivate #{coupon_1.name}"
+        click_button "Deactivate #{coupon_2.name}"
 
-        expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_1))
+        expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_2))
 
-        expect(page).to have_button("Deactivate #{coupon_1.name}")
+        expect(page).to have_button("Activate #{coupon_2.name}")
+        expect(page).to have_content("Status: inactive")
 
         visit merchant_coupons_path(merchant_1)
 
         within ".active_coupons" do
           expect(page).to have_content(coupon_1.name)
-          expect(page).to have_content(coupon_2.name)
         end
 
         within ".inactive_coupons" do
+          expect(page).to have_content(coupon_2.name)
           expect(page).to have_content(coupon_3.name)
         end
-
       end
+
+      #User Story 4 - Sad Path
 
       it "will not deactivate a coupon with pending invoices and instead redirects to the coupon show page and displays a flash message" do
         coupon_2.update(status: 1)
@@ -100,12 +106,52 @@ RSpec.describe "merchants/:id/coupons/:id" do
 
         visit merchant_coupons_path(merchant_1)
 
+        within ".active_coupons" do
+          expect(page).to have_content(coupon_1.name)
+          expect(page).to have_content(coupon_2.name)
+        end
+      end
+
+      # User Story 5 - Merchant Coupon Activate
+
+      it "displays an activate button for inactivated coupons" do
+        coupon_2.update(status: 0)
+        coupon_3.update(status: 0)
+
+        visit merchant_coupons_path(merchant_1)
+
+        within ".active_coupons" do
+          expect(page).to have_content(coupon_1.name)
+        end
+
+        within ".inactive_coupons" do
+          expect(page).to have_content(coupon_2.name)
+          expect(page).to have_content(coupon_3.name)
+        end
+
+        within ".inactive_coupons" do
+          click_link coupon_2.name
+        end
+
+        expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_2))
+
+        click_button "Activate #{coupon_2.name}"
+
+        expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_2))
+
+        expect(page).to have_button("Deactivate #{coupon_2.name}")
+        expect(page).to have_content("Status: active")
+
+        visit merchant_coupons_path(merchant_1)
 
         within ".active_coupons" do
           expect(page).to have_content(coupon_1.name)
           expect(page).to have_content(coupon_2.name)
         end
 
+        within ".inactive_coupons" do
+          expect(page).to have_content(coupon_3.name)
+        end
       end
     end
   end
