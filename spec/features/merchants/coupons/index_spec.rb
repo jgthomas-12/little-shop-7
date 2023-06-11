@@ -34,16 +34,39 @@ RSpec.describe "merchants/:id/coupons" do
           expect(page).to have_content(coupon_2.discount_amount)
         end
 
+        within ".inactive_coupons" do
+          expect(page).to have_content("Inactive Coupons")
+          expect(page).to have_content(coupon_3.name)
+          expect(page).to have_content(coupon_3.discount_type)
+          expect(page).to have_content(coupon_3.discount_amount)
+
+          expect(page).to have_content(coupon_4.name)
+          expect(page).to have_content(coupon_4.discount_type)
+          expect(page).to have_content(coupon_4.discount_amount)
+
+          expect(page).to have_content(coupon_4.name)
+          expect(page).to have_content(coupon_4.discount_type)
+          expect(page).to have_content(coupon_4.discount_amount)
+        end
+
       end
 
       it "links to the coupon show page from a link on the coupon name" do
         coupon_1.update(status: 1)
         coupon_2.update(status: 1)
+        coupon_3.update(status: 0)
         visit merchant_coupons_path(merchant_1)
 
         within ".active_coupons" do
           expect(page).to have_link(coupon_1.name)
           expect(page).to have_link(coupon_2.name)
+        end
+
+        within ".inactive_coupons" do
+          expect(page).to have_link(coupon_3.name)
+        end
+
+        within ".active_coupons" do
           click_link coupon_1.name
         end
 
