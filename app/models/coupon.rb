@@ -16,6 +16,9 @@ class Coupon < ApplicationRecord
     where(status: "inactive")
  end
 
+ def usage_count
+ invoices.where(status: "completed").count
+ end
 
 
 end
