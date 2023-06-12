@@ -176,3 +176,22 @@
   #     0
   #   end
   # end
+
+    # call mercahnt through the coupon
+  # it "displays the name and code of the coupon used as a link to the coupon's show page" do
+  #   visit admin_invoice_path(invoice_1)
+
+  #   within("#invoice_info") do
+  #   click_link "#{coupon_1.name} coupon, code: #{coupon_1.code}"
+  #     expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_1))
+  #   end
+  # end
+
+  # it "displays the name and code of the coupon that was used" do
+  #   visit admin_invoice_path(invoice_1)
+
+
+  # end
+
+  # it "displays both the subtotal and grand total of that invoice"
+  # end
