@@ -32,8 +32,6 @@ class Invoice < ApplicationRecord
         (revenue * coupon.discount_amount / 100).round(2)
     elsif coupon.discount_type == "currency"
         coupon.discount_amount
-    else
-      0
     end
   end
 end
