@@ -17,7 +17,7 @@
     <%= form.submit "Update Status" %>
   <% end %>
   <p>Created on: <%= @invoice.created_at.to_datetime.strftime("%A, %B %d, %Y") %></p>
-  <p>Revenue: <%= number_to_currency(@invoice.revenue, unit: "$", separator: ".", delimiter: "") %></p>
+  <p>Subtotal: <%= number_to_currency(@invoice.revenue, unit: "$", separator: ".", delimiter: "") %></p>
   <p>Customer: <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></p>
 </section>
 <section id="item_table">
