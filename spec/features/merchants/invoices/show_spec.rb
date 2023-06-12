@@ -126,7 +126,7 @@ RSpec.describe "Merchant Invoices Show Page" do
 
       let!(:invoice_item_1) { create(:invoice_item, invoice: invoice_1, item: item_1, unit_price: 100, quantity: 1) }
       let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_2, item: item_2, unit_price: 1000, quantity: 1) }
-      let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }
+      let!(:invoice_item_3) { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }
 
       it "displays the subtotal from it's invoice - total not including discounts" do
         visit merchant_invoice_path(merchant_1, invoice_1)
