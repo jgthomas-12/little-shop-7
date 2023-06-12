@@ -64,17 +64,17 @@ RSpec.describe "Merchant Invoices Show Page" do
       end
     end
 
-    it "displays the total revenue for an invoice" do
+    it "displays the total revenue/subtotal for an invoice" do
       visit merchant_invoice_path(@merchant_1, @invoice_1)
 
       within("#invoice_info") do
-        expect(page).to have_content("Revenue: $#{sprintf('%.2f', @invoice_1.revenue)}")
+        expect(page).to have_content("Subtotal: $#{sprintf('%.2f', @invoice_1.revenue)}")
       end
 
       visit merchant_invoice_path(@merchant_1, @invoice_2)
 
       within("#invoice_info") do
-        expect(page).to have_content("Revenue: $#{sprintf('%.2f', @invoice_2.revenue)}")
+        expect(page).to have_content("Subtotal: $#{sprintf('%.2f', @invoice_2.revenue)}")
       end
     end
 
@@ -127,14 +127,6 @@ RSpec.describe "Merchant Invoices Show Page" do
       let!(:invoice_item_1) { create(:invoice_item, invoice: invoice_1, item: item_1, unit_price: 100, quantity: 1) }
       let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_2, item: item_2, unit_price: 1000, quantity: 1) }
       let!(:invoice_item_3) { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }
-
-      it "displays the subtotal from it's invoice - total not including discounts" do
-        visit merchant_invoice_path(merchant_1, invoice_1)
-
-        within("#invoice_info") do
-          expect(page).to have_content("Subtotal: $#{invoice_1.revenue}")
-        end
-      end
 
       it "displays the grand total from it's invoice - total including discounts" do
         visit merchant_invoice_path(merchant_1, invoice_1)

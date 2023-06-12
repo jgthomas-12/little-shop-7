@@ -32,8 +32,6 @@ RSpec.describe "Admin Invoices Show Page" do
       expect(page).to have_content("Invoice #{@invoice_1.id}")
 
       expect(page).to_not have_content(@invoice_2.id)
-      # expect(page).to_not have_content(@invoice_2.status)
-      # expect(page).to_not have_content(@invoice_2.formatted_time)
       expect(page).to_not have_content(@invoice_2.customer.first_name)
       expect(page).to_not have_content(@invoice_2.customer.last_name)
       within("#invoice_info") do
@@ -76,16 +74,16 @@ RSpec.describe "Admin Invoices Show Page" do
       end
     end
 
-    it "displays the total revenue for an invoice" do
+    it "displays the total revenue/subtotal for an invoice" do
       visit admin_invoice_path(@invoice_1)
       within("#invoice_info") do
-        expect(page).to have_content("Revenue: $#{sprintf('%.2f', @invoice_1.revenue)}")
+        expect(page).to have_content("Subtotal: $#{sprintf('%.2f', @invoice_1.revenue)}")
       end
 
       visit admin_invoice_path(@invoice_2)
 
       within("#invoice_info") do
-        expect(page).to have_content("Revenue: $#{sprintf('%.2f', @invoice_2.revenue)}")
+        expect(page).to have_content("Subtotal: $#{sprintf('%.2f', @invoice_2.revenue)}")
       end
     end
 
@@ -110,6 +108,53 @@ RSpec.describe "Admin Invoices Show Page" do
         @invoice_1.reload
         expect(current_path).to eq(admin_invoice_path(@invoice_1))
         expect(@invoice_1.status).to eq("cancelled")
+      end
+    end
+
+    # User Story 8 - Coupons
+
+    describe "Admin Invoice Show Page: Subtotal and Grand Total Revenues" do
+      let!(:merchant_1) { create(:merchant) }
+      let!(:item_1) { create(:item, merchant_id: merchant_1.id)}
+      let!(:item_2) { create(:item, merchant_id: merchant_1.id)}
+
+      let!(:coupon_1) { Coupon.create(name: "Let's Try This", code: "five66", status: "active", discount_type: "percent", discount_amount: 10, merchant_id: merchant_1.id) }
+      let!(:coupon_2) { create(:coupon, merchant: merchant_1) }
+      let!(:coupon_3) { create(:coupon, merchant: merchant_1) }
+
+      let!(:customer_1) { create(:customer) }
+      let!(:invoice_1) { create(:invoice, customer_id: customer_1.id, status: 1, coupon_id: coupon_1.id) } # 1 = completed
+
+      let!(:customer_2) { create(:customer) }
+      let!(:invoice_2) { create(:invoice, customer_id: customer_2.id, status: 1, coupon_id: coupon_1.id) } # 1 = completed
+
+      let!(:customer_3) { create(:customer) }
+      let!(:invoice_3) { create(:invoice, customer_id: customer_3.id, status: 1) } # 1 = completed
+
+      let!(:customer_4) { create(:customer) }
+      let!(:invoice_4) { create(:invoice, customer_id: customer_4.id, status: 2, coupon_id: coupon_1.id) } # 2 = in progress
+
+      let!(:invoice_item_1) { create(:invoice_item, invoice: invoice_1, item: item_1, unit_price: 100, quantity: 1) }
+      let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_2, item: item_2, unit_price: 1000, quantity: 1) }
+      let!(:invoice_item_3) { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }
+
+      it "displays the subtotal, grand total from it's invoice and the coupon name, code if a coupon is used" do
+        visit admin_invoice_path(invoice_1)
+
+        within("#invoice_info") do
+          expect(page).to have_content("Subtotal: $#{invoice_1.revenue}")
+          expect(page).to have_content("Grand Total: $#{invoice_1.grand_total}")
+          expect(page).to have_content("Coupon Name: #{coupon_1.name}")
+          expect(page).to have_content("Coupon Code: #{coupon_1.code}")
+        end
+        visit admin_invoice_path(invoice_3)
+
+        within("#invoice_info") do
+          expect(page).to have_content("Subtotal: $#{invoice_3.revenue}")
+          expect(page).to have_content("Grand Total: $#{invoice_3.grand_total}")
+          expect(page).to_not have_content("Coupon Name: #{coupon_1.name}")
+          expect(page).to_not have_content("Coupon Code: #{coupon_1.code}")
+        end
       end
     end
   end
