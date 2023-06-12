@@ -111,6 +111,8 @@ RSpec.describe "Admin Invoices Show Page" do
       end
     end
 
+    # User Story 8 - Coupons
+
     describe "Admin Invoice Show Page: Subtotal and Grand Total Revenues" do
       let!(:merchant_1) { create(:merchant) }
       let!(:item_1) { create(:item, merchant_id: merchant_1.id)}
@@ -127,7 +129,7 @@ RSpec.describe "Admin Invoices Show Page" do
       let!(:invoice_2) { create(:invoice, customer_id: customer_2.id, status: 1, coupon_id: coupon_1.id) } # 1 = completed
 
       let!(:customer_3) { create(:customer) }
-      let!(:invoice_3) { create(:invoice, customer_id: customer_3.id, status: 1, coupon_id: coupon_1.id) } # 1 = completed
+      let!(:invoice_3) { create(:invoice, customer_id: customer_3.id, status: 1) } # 1 = completed
 
       let!(:customer_4) { create(:customer) }
       let!(:invoice_4) { create(:invoice, customer_id: customer_4.id, status: 2, coupon_id: coupon_1.id) } # 2 = in progress
@@ -136,13 +138,24 @@ RSpec.describe "Admin Invoices Show Page" do
       let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_2, item: item_2, unit_price: 1000, quantity: 1) }
       let!(:invoice_item_3) { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }
 
-      it "displays the name and code of the coupon that was used" do
+      it "displays the subtotal, grand total from it's invoice and the coupon name, code if a coupon is used" do
         visit admin_invoice_path(invoice_1)
 
+        within("#invoice_info") do
+          expect(page).to have_content("Subtotal: $#{invoice_1.revenue}")
+          expect(page).to have_content("Grand Total: $#{invoice_1.grand_total}")
+          expect(page).to have_content("Coupon Name: #{coupon_1.name}")
+          expect(page).to have_content("Coupon Code: #{coupon_1.code}")
+        end
+        visit admin_invoice_path(invoice_3)
 
+        within("#invoice_info") do
+          expect(page).to have_content("Subtotal: $#{invoice_3.revenue}")
+          expect(page).to have_content("Grand Total: $#{invoice_3.grand_total}")
+          expect(page).to_not have_content("Coupon Name: #{coupon_1.name}")
+          expect(page).to_not have_content("Coupon Code: #{coupon_1.code}")
+        end
       end
-
-      it "displays both the subtotal and grand total of that invoice"
     end
   end
 end
