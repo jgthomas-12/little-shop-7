@@ -87,26 +87,6 @@ RSpec.describe "merchants/:id/coupons" do
         click_link "Create New Coupon"
         expect(current_path).to eq(new_merchant_coupon_path(merchant_1))
       end
-
-      # xit "can only display 5 active coupons" do
-      #   coupon_1.update(status: 1)
-      #   coupon_2.update(status: 1)
-      #   coupon_3.update(status: 1)
-      #   coupon_4.update(status: 1)
-      #   coupon_5.update(status: 1)
-      #   visit merchant_coupons_path(merchant_1)
-
-      #   within ".active_coupons" do
-      #     expect(page).to have_content(coupon_1.name)
-      #     expect(page).to have_content(coupon_2.name)
-      #     expect(page).to have_content(coupon_3.name)
-      #     expect(page).to have_content(coupon_4.name)
-      #     expect(page).to have_content(coupon_5.name)
-      #     expect(page).to_not have_content(coupon_6.name)
-      #   end
-      # end
     end
   end
-
-
 end

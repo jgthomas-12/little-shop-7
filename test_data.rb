@@ -162,3 +162,17 @@
 # <% if @coupon.pending_invoices? %>
 # <% flash[:alert] = "Cannot deactivate coupon with pending invoices" %>
 # <% end %>
+
+  # def coupon_discount
+  #   if coupon.present?
+  #     if coupon.discount_type == "percent"
+  #       (revenue * coupon.discount_amount / 100).round(2)
+  #     elsif coupon.discount_type == "currency"
+  #       coupon.discount_amount
+  #     else
+  #       0
+  #     end
+  #   else
+  #     0
+  #   end
+  # end

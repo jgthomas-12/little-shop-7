@@ -105,4 +105,47 @@ RSpec.describe Invoice, type: :model do
       end
     end
   end
+
+  describe "instance methods 2" do
+
+    let!(:merchant_1) { create(:merchant) }
+    let!(:item_1) { create(:item, merchant_id: merchant_1.id)}
+    let!(:item_2) { create(:item, merchant_id: merchant_1.id)}
+
+    let!(:coupon_1) { Coupon.create(name: "Let's Try This", code: "five66", status: "active", discount_type: "percent", discount_amount: 10, merchant_id: merchant_1.id) }
+    let!(:coupon_2) { Coupon.create(name: "Anotha' One", code: "e23e12", status: "active", discount_type: "currency", discount_amount: 150, merchant_id: merchant_1.id) }
+
+    let!(:customer_1) { create(:customer) }
+    let!(:invoice_1) { create(:invoice, customer_id: customer_1.id, status: 1, coupon_id: coupon_1.id) } # 1 = completed
+
+    let!(:customer_2) { create(:customer) }
+    let!(:invoice_2) { create(:invoice, customer_id: customer_2.id, status: 1, coupon_id: coupon_1.id) } # 1 = completed
+
+    let!(:customer_3) { create(:customer) }
+    let!(:invoice_3) { create(:invoice, customer_id: customer_3.id, status: 1, coupon_id: coupon_2.id) } # 1 = completed
+
+    let!(:customer_4) { create(:customer) }
+    let!(:invoice_4) { create(:invoice, customer_id: customer_4.id, status: 2, coupon_id: coupon_1.id) } # 2 = in progress
+
+    let!(:invoice_item_1) { create(:invoice_item, invoice: invoice_1, item: item_1, unit_price: 100, quantity: 1) }
+    let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_2, item: item_2, unit_price: 1000, quantity: 1) }
+
+    let!(:invoice_item_3) { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }
+
+    describe "#coupon_discount" do
+      it "will calculate the coupon discount for percentage and currency" do
+        expect(invoice_1.coupon_discount).to eq(10)
+        expect(invoice_2.coupon_discount).to eq(100)
+        expect(invoice_3.coupon_discount).to eq(150)
+      end
+    end
+
+    describe "#grand_total" do
+      it "returns the total cost after coupons are calculated" do
+        expect(invoice_1.grand_total).to eq(90)
+        expect(invoice_2.grand_total).to eq(900)
+        expect(invoice_3.grand_total).to eq(850)
+      end
+    end
+  end
 end

@@ -25,7 +25,7 @@ RSpec.describe "merchants/:id/coupons/:id" do
 
       let!(:invoice_item_1) { create(:invoice_item, invoice: invoice_1, item: item_1, unit_price: 100, quantity: 1) }
       let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_2, item: item_2, unit_price: 1000, quantity: 1) }
-      let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }
+      let!(:invoice_item_3) { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }
 
       # User Story 3 - Merchant Coupon Show Page
 
@@ -42,7 +42,7 @@ RSpec.describe "merchants/:id/coupons/:id" do
       end
 
       # User Story 4 - Merchant Coupon Dectivate
-      
+
       # Tested the display for active and inactive within blocks in story 1
       it "displays a deactivate button for activated coupons" do
         coupon_2.update(status: 1)
