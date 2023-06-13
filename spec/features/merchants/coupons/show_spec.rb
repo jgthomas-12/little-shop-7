@@ -27,6 +27,10 @@ RSpec.describe "merchants/:id/coupons/:id" do
       let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_2, item: item_2, unit_price: 1000, quantity: 1) }
       let!(:invoice_item_3) { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }
 
+      let!(:coupon_4) { create(:coupon, merchant: merchant_1) }
+      let!(:coupon_5) { create(:coupon, merchant: merchant_1) }
+      let!(:coupon_6) { create(:coupon, merchant: merchant_1) }
+
       # User Story 3 - Merchant Coupon Show Page
 
       it "displays the coupons name, code, discout type and coupon status" do
@@ -152,6 +156,94 @@ RSpec.describe "merchants/:id/coupons/:id" do
         within ".inactive_coupons" do
           expect(page).to have_content(coupon_3.name)
         end
+      end
+
+      it "links to coupons index page" do
+        visit merchant_coupon_path(merchant_1, coupon_1)
+        click_link "Back to Coupons Index"
+        expect(current_path).to eq(merchant_coupons_path(merchant_1))
+      end
+
+      it "won't add a coupon if there are five active coupons" do
+        coupon_1.update(status: 1)
+        coupon_2.update(status: 1)
+        coupon_3.update(status: 1)
+        coupon_4.update(status: 1)
+        coupon_5.update(status: 1)
+        coupon_6.update(status: 0)
+        visit merchant_coupons_path(merchant_1)
+
+        within ".active_coupons" do
+          expect(page).to have_content("Active Coupons")
+          expect(page).to have_content(coupon_1.name)
+          expect(page).to have_content(coupon_1.discount_type)
+          expect(page).to have_content(coupon_1.discount_amount)
+
+          expect(page).to have_content(coupon_2.name)
+          expect(page).to have_content(coupon_2.discount_type)
+          expect(page).to have_content(coupon_2.discount_amount)
+
+          expect(page).to have_content(coupon_3.name)
+          expect(page).to have_content(coupon_3.discount_type)
+          expect(page).to have_content(coupon_3.discount_amount)
+
+          expect(page).to have_content(coupon_4.name)
+          expect(page).to have_content(coupon_4.discount_type)
+          expect(page).to have_content(coupon_4.discount_amount)
+
+          expect(page).to have_content(coupon_5.name)
+          expect(page).to have_content(coupon_5.discount_type)
+          expect(page).to have_content(coupon_5.discount_amount)
+        end
+
+        within ".inactive_coupons" do
+          expect(page).to have_content("Inactive Coupons")
+          expect(page).to have_content(coupon_6.name)
+          expect(page).to have_content(coupon_6.discount_type)
+          expect(page).to have_content(coupon_6.discount_amount)
+          click_link coupon_6.name
+        end
+
+        expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_6))
+
+        click_button "Activate #{coupon_6.name}"
+
+        expect(current_path).to eq(merchant_coupon_path(merchant_1, coupon_6))
+        expect(page).to have_content("Maximum coupons created, please deactivate one to create a new coupon")
+
+        visit merchant_coupons_path(merchant_1)
+
+        within ".active_coupons" do
+          expect(page).to have_content("Active Coupons")
+          expect(page).to have_content(coupon_1.name)
+          expect(page).to have_content(coupon_1.discount_type)
+          expect(page).to have_content(coupon_1.discount_amount)
+
+          expect(page).to have_content(coupon_2.name)
+          expect(page).to have_content(coupon_2.discount_type)
+          expect(page).to have_content(coupon_2.discount_amount)
+
+          expect(page).to have_content(coupon_3.name)
+          expect(page).to have_content(coupon_3.discount_type)
+          expect(page).to have_content(coupon_3.discount_amount)
+
+          expect(page).to have_content(coupon_4.name)
+          expect(page).to have_content(coupon_4.discount_type)
+          expect(page).to have_content(coupon_4.discount_amount)
+
+          expect(page).to have_content(coupon_5.name)
+          expect(page).to have_content(coupon_5.discount_type)
+          expect(page).to have_content(coupon_5.discount_amount)
+        end
+
+        within ".inactive_coupons" do
+          expect(page).to have_content("Inactive Coupons")
+          expect(page).to have_content(coupon_6.name)
+          expect(page).to have_content(coupon_6.discount_type)
+          expect(page).to have_content(coupon_6.discount_amount)
+          click_link coupon_6.name
+        end
+
       end
     end
   end
