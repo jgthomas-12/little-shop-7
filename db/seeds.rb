@@ -22,8 +22,24 @@ coupon_4 = Coupon.create!(name: "Ten Dollars Off 1 Item", code: "fsdf23", status
 coupon_5 = Coupon.create!(name: "50% Off", code: "dfsa34", status: "inactive", discount_type: "percent", discount_amount: 50, merchant_id: merchant_1.id)
 coupon_6 = Coupon.create(name: "Let's Try This", code: "five66", status: "active", discount_type: "percent", discount_amount: 10, merchant_id: merchant_1.id)
 
-# customer_1 =
 
+customer_1 = Customer.create!(first_name: "Joey", last_name: "Joe")
+invoice_1 = Invoice.create!(status: 1, customer_id: customer_1.id, coupon_id: coupon_6.id)
+
+customer_2 = Customer.create!(first_name: "Suzy", last_name: "Sue")
+invoice_2 = Invoice.create!(status: 1, customer_id: customer_2.id, coupon_id: coupon_6.id)
+
+customer_3 = Customer.create!(first_name: "Billy", last_name: "Williams")
+invoice_3 = Invoice.create!(status: 1, customer_id: customer_3.id, coupon_id: coupon_6.id)
+invoice_4 = Invoice.create!(status: 0, customer_id: customer_3.id, coupon_id: coupon_6.id)
+
+customer_4 = Customer.create!(first_name: "Randall", last_name: "Randalls")
+invoice_5 = Invoice.create!(status: 2, customer_id: customer_4.id, coupon_id: coupon_6.id)
+invoice_6 = Invoice.create!(status: 0, customer_id: customer_4.id, coupon_id: coupon_6.id)
+
+invoice_item_1 = InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_1.id, unit_price: 100, quantity: 1, status: 1)
+invoice_item_2 = InvoiceItem.create!(invoice_id: invoice_2.id, item_id: item_2.id, unit_price: 200, quantity: 1, status: 1)
+invoice_item_3 = InvoiceItem.create!(invoice_id: invoice_3.id, item_id: item_2.id, unit_price: 20000, quantity: 1, status: 1)
 
 
 # item_1 { create(:item, merchant_id: merchant_1.id)}
