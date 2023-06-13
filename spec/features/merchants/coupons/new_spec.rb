@@ -21,7 +21,7 @@ RSpec.describe "/merchants/:id/coupons/new" do
         expect(page).to have_content("Create New Coupon")
         fill_in("Name:", with: "THIS DEAL ROCKS")
         fill_in("Code:", with: "RockYeah12")
-        fill_in("Status:", with: "active")
+        select("active", from: "Status:")
         select( "Percent", from: "Discount Type:")
         fill_in("Discount Amount:", with: 40)
 
@@ -38,7 +38,8 @@ RSpec.describe "/merchants/:id/coupons/new" do
 
         fill_in("Name:", with: "No Longer Rockin")
         fill_in("Code:", with: "Deflated")
-        fill_in("Status:", with: "active")
+        # fill_in("Status:", with: "active")
+        select("active", from: "Status:")
         select( "Amount Off", from: "Discount Type:")
         fill_in("Discount Amount:", with: 20)
 
@@ -79,7 +80,8 @@ RSpec.describe "/merchants/:id/coupons/new" do
 
         fill_in("Name:", with: "No Longer Rockin")
         fill_in("Code:", with: "Deflated")
-        fill_in("Status:", with: "active")
+        # fill_in("Status:", with: "active")
+        select("active", from: "Status:")
         select( "Amount Off", from: "Discount Type:")
         fill_in("Discount Amount:", with: 20)
 
@@ -97,7 +99,8 @@ RSpec.describe "/merchants/:id/coupons/new" do
 
         fill_in("Name:", with: "No Longer Rockin")
         fill_in("Code:", with: coup_code )
-        fill_in("Status:", with: "active")
+        # fill_in("Status:", with: "active")
+        select("active", from: "Status:")
         select( "Amount Off", from: "Discount Type:")
         fill_in("Discount Amount:", with: 20)
 

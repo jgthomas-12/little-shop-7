@@ -126,17 +126,21 @@ RSpec.describe Invoice, type: :model do
 
     let!(:customer_4) { create(:customer) }
     let!(:invoice_4) { create(:invoice, customer_id: customer_4.id, status: 2, coupon_id: coupon_1.id) } # 2 = in progress
+    let!(:invoice_5) { create(:invoice, customer_id: customer_4.id, status: 1) }
+
 
     let!(:invoice_item_1) { create(:invoice_item, invoice: invoice_1, item: item_1, unit_price: 100, quantity: 1) }
     let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_2, item: item_2, unit_price: 1000, quantity: 1) }
 
     let!(:invoice_item_3) { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }
+    let!(:invoice_item_4) { create(:invoice_item, invoice: invoice_5, item: item_2, unit_price: 1000, quantity: 1) }
 
     describe "#coupon_discount" do
       it "will calculate the coupon discount for percentage and currency" do
         expect(invoice_1.coupon_discount).to eq(10)
-        expect(invoice_2.coupon_discount).to eq(100)
+        expect(invoice_2.coupon_discount).to eq(100) #shouldn't this cover the currency part of coupon_discount?
         expect(invoice_3.coupon_discount).to eq(150)
+        expect(invoice_5.coupon_discount).to eq(0)
       end
     end
 

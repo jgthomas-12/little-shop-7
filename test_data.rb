@@ -195,3 +195,42 @@
 
   # it "displays both the subtotal and grand total of that invoice"
   # end
+
+
+    # def self.app_logo
+  #   app_logo = PhotoBuilder.app_logo_info
+  #   app_logo.url
+  # end
+
+  # def self.app_logo_likes
+  #   app_logo = PhotoBuilder.app_logo_info
+  #   app_logo.likes
+  # end
+
+#   app/helpers/holiday_helper.rb
+#   require "httparty"
+# require "json"
+# require "pry"
+
+# class HolidayHelper
+#   attr_reader :name,
+#               :date,
+
+#   def initialize(data)
+#   	@name = data[:localName]
+# 	  @date = data[:date]
+
+#   end
+
+#   def get_next_holidays(num)
+#     response = HTTParty.get("https://date.nager.at/api/v3/PublicHolidays/2023/us")
+
+#     parsed = JSON.parse(response.body, symbolize_names: true)
+
+#     holidays = parsed.map do |data|
+#       HolidayHelper.new(data)
+#     end
+
+#     # [holidays[0], holidays[1], holidays[2]]
+#   end
+# end

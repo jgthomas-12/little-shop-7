@@ -1,6 +1,8 @@
 class Merchants::CouponsController < ApplicationController
   def index
     @merchant = Merchant.find(params[:merchant_id])
+    @holidays = HolidayBuilder.get_next_holidays
+
   end
 
   def show
