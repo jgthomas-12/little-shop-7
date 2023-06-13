@@ -19,3 +19,11 @@
   <p><%= c.discount_amount %></p>
 <% end %>
 </div>
+
+<ol>
+<h4> Upcoming Holidays </h4>
+<% @holidays.each do |holiday| %>
+  <li>Holiday: <%= holiday.name %></li>
+  <p>Date: <%= holiday.date %></p>
+<% end %>
+</ol>
