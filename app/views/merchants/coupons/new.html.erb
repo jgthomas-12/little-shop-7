@@ -1,7 +1,6 @@
 <h3> Create New Coupon </h3>
 <p><%= link_to "Back to Coupons Index", merchant_coupons_path(@merchant) %></p>
 
-
 <%= form_with model: @coupon, url: merchant_coupons_path(@merchant), method: :post, local: true do |f| %>
   <%= f.label :name, "Name:" %>
   <%= f.text_field :name %>
@@ -19,5 +18,4 @@
   <%= f.number_field :discount_amount, in: 1..100%>
 
   <%= f.submit "Submit New Coupon" %>
-
 <% end %>
