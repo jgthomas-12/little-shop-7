@@ -1,5 +1,6 @@
 <h3> <%= @merchant.name %> Coupins </h3>
 <p><%= link_to "Create New Coupon", new_merchant_coupon_path(@merchant), method: :get %></p>
+<p><%= link_to "Back to My Dashboard", merchant_path(@merchant) %></p>
 
 
 <div class="active_coupons">
