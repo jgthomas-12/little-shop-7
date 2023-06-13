@@ -6,4 +6,6 @@ class Photo
   #   @data = data
   #   @likes = data[:likes]
   # end
+
+  
 end

@@ -15,4 +15,6 @@ class PhotoService
   # def merchant(merchant_name)
   #   get_url("https://api.unsplash.com/photos/random?client_id=41FnloUJRwgHF3waPM704zSuS0VEAEtJDWpC1rvd8uQ&query=#{merchant_name}")
   # end
+
+
 end

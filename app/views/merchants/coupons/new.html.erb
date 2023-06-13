@@ -8,7 +8,7 @@
   <%= f.text_field :code %>
 
   <%= f.label :status, "Status:" %>
-  <%= f.text_field :status %>
+  <%= f.select :status, options_for_select([["inactive", "inactive"], ["active", "active"]], @coupon.status) %>
 
   <%= f.label :discount_type, "Discount Type:" %>
   <%= f.select :discount_type, options_for_select([["Percent", "percent"], ["Amount Off", "currency"]]) %>

@@ -22,6 +22,7 @@ RSpec.describe "merchants/:id/coupons" do
         coupon_5.update(status: 0)
         visit merchant_coupons_path(merchant_1)
 
+
         expect(page).to have_content("#{merchant_1.name} Coupins")
 
         within ".active_coupons" do
