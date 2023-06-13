@@ -22,11 +22,13 @@ class Invoice < ApplicationRecord
   end
 
   def grand_total
-    revenue - coupon_discount
+    tot = revenue - coupon_discount
+    return 0 if tot <= 0
+    tot
   end
 
   def coupon_discount
-    if coupon.nil?
+    if coupon.nil? || coupon.merchant_id != items[0].merchant_id
       0
     elsif coupon.discount_type == "percent"
         (revenue * coupon.discount_amount / 100).round(2)

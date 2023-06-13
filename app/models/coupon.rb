@@ -3,7 +3,7 @@ class Coupon < ApplicationRecord
   has_many :invoices
 
   validates_presence_of :name, :code, :status, :discount_type, :discount_amount
-  validates_uniqueness_of :code
+  validates :code, uniqueness: { scope: :merchant_id }
 
   enum status: ["inactive", "active"]
   enum discount_type: ["percent", "currency"]
