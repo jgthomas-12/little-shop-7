@@ -13,10 +13,8 @@ class HolidayBuilder
     query_date = Date.today
 
     next_holidays = holidays.select do |holiday|
-
       holiday_date = Date.parse(holiday.date)
       holiday_date >= query_date
-    # [holidays[0], holidays[1], holidays[2]]
     end
 
     next_three_holidays = next_holidays.first(3)

@@ -243,7 +243,6 @@ RSpec.describe "merchants/:id/coupons/:id" do
           expect(page).to have_content(coupon_6.discount_amount)
           click_link coupon_6.name
         end
-
       end
     end
   end

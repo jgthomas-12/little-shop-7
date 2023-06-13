@@ -40,38 +40,3 @@ invoice_6 = Invoice.create!(status: 0, customer_id: customer_4.id, coupon_id: co
 invoice_item_1 = InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_1.id, unit_price: 100, quantity: 1, status: 1)
 invoice_item_2 = InvoiceItem.create!(invoice_id: invoice_2.id, item_id: item_2.id, unit_price: 200, quantity: 1, status: 1)
 invoice_item_3 = InvoiceItem.create!(invoice_id: invoice_3.id, item_id: item_2.id, unit_price: 20000, quantity: 1, status: 1)
-
-
-# item_1 { create(:item, merchant_id: merchant_1.id)}
-# item_2 { create(:item, merchant_id: merchant_1.id)}
-
-# coupon_1 { create(:coupon, merchant: merchant_1) }
-# coupon_2 { create(:coupon, merchant: merchant_1) }
-# coupon_3 { create(:coupon, merchant: merchant_1) }
-
-# coupon_4 { create(:coupon, merchant: merchant_1) }
-# coupon_5 { create(:coupon, merchant: merchant_1) }
-
-# coupon_6 { Coupon.create(name: "Let's Try This", code: "five66", status: "active", discount_type: "percent", discount_amount: 10, merchant_id: merchant_1.id) }
-
-
-
-
-# #####
-# customer_1 { create(:customer) }
-# invoice_1 { create(:invoice, customer_id: customer_1.id, status: 1, coupon_id: coupon_6.id) } # 1 = completed
-
-# customer_2 { create(:customer) }
-# invoice_2 { create(:invoice, customer_id: customer_2.id, status: 1, coupon_id: coupon_6.id) } # 1 = completed
-
-# customer_3 { create(:customer) }
-# invoice_3 { create(:invoice, customer_id: customer_3.id, status: 1, coupon_id: coupon_6.id) } # 1 = completed
-# invoice_6 { create(:invoice, customer_id: customer_3.id, status: 0, coupon_id: coupon_6.id) } # 1 = completed
-
-# customer_4 { create(:customer) }
-# invoice_4 { create(:invoice, customer_id: customer_4.id, status: 2, coupon_id: coupon_6.id) } # 2 = in progress - not a successful transaction
-# invoice_5 { create(:invoice, customer_id: customer_4.id, status: 0, coupon_id: coupon_6.id) } # 0 = cancelled
-
-# invoice_item_1 { create(:invoice_item, invoice: invoice_1, item: item_1, unit_price: 100, quantity: 1) }
-# invoice_item_2 { create(:invoice_item, invoice: invoice_2, item: item_2, unit_price: 1000, quantity: 1) }
-# invoice_item_3 { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }

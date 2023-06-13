@@ -11,7 +11,6 @@ RSpec.describe "/merchants/:id/coupons/new" do
       let!(:coupon_4) { create(:coupon, merchant: merchant_1) }
       let!(:coupon_5) { create(:coupon, merchant: merchant_1) }
 
-
       it "displays a form to create a new coupon" do
         coupon_4.update(status: 0)
         coupon_5.update(status: 0)
@@ -38,7 +37,6 @@ RSpec.describe "/merchants/:id/coupons/new" do
 
         fill_in("Name:", with: "No Longer Rockin")
         fill_in("Code:", with: "Deflated")
-        # fill_in("Status:", with: "active")
         select("active", from: "Status:")
         select( "Amount Off", from: "Discount Type:")
         fill_in("Discount Amount:", with: 20)
@@ -80,7 +78,6 @@ RSpec.describe "/merchants/:id/coupons/new" do
 
         fill_in("Name:", with: "No Longer Rockin")
         fill_in("Code:", with: "Deflated")
-        # fill_in("Status:", with: "active")
         select("active", from: "Status:")
         select( "Amount Off", from: "Discount Type:")
         fill_in("Discount Amount:", with: 20)
@@ -99,7 +96,6 @@ RSpec.describe "/merchants/:id/coupons/new" do
 
         fill_in("Name:", with: "No Longer Rockin")
         fill_in("Code:", with: coup_code )
-        # fill_in("Status:", with: "active")
         select("active", from: "Status:")
         select( "Amount Off", from: "Discount Type:")
         fill_in("Discount Amount:", with: 20)
