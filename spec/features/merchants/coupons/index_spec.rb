@@ -23,7 +23,6 @@ RSpec.describe "merchants/:id/coupons" do
         coupon_5.update(status: 0)
         visit merchant_coupons_path(merchant_1)
 
-
         expect(page).to have_content("#{merchant_1.name} Coupins")
 
         within ".active_coupons" do
@@ -51,7 +50,6 @@ RSpec.describe "merchants/:id/coupons" do
           expect(page).to have_content(coupon_4.discount_type)
           expect(page).to have_content(coupon_4.discount_amount)
         end
-
       end
 
       it "links to the coupon show page from a link on the coupon name" do
@@ -95,8 +93,6 @@ RSpec.describe "merchants/:id/coupons" do
         click_link "Back to My Dashboard"
         expect(current_path).to eq(merchant_path(merchant_1))
       end
-
-
     end
   end
 end

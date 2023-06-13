@@ -14,7 +14,7 @@ RSpec.describe Coupon, type: :model do
       it { should validate_presence_of(:discount_type) }
       it { should validate_presence_of(:discount_amount) }
 
-      it { should validate_uniqueness_of(:code) }
+      it { should validate_uniqueness_of(:code).scoped_to(:merchant_id) }
     end
 
     let!(:merchant_1) { create(:merchant) }
@@ -27,7 +27,6 @@ RSpec.describe Coupon, type: :model do
 
     let!(:coupon_4) { create(:coupon, merchant: merchant_1) }
     let!(:coupon_5) { create(:coupon, merchant: merchant_1) }
-
 
     let!(:coupon_6) { Coupon.create(name: "Let's Try This", code: "five66", status: "active", discount_type: "percent", discount_amount: 10, merchant_id: merchant_1.id) }
 

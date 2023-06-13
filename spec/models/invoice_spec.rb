@@ -114,6 +114,7 @@ RSpec.describe Invoice, type: :model do
 
     let!(:coupon_1) { Coupon.create(name: "Let's Try This", code: "five66", status: "active", discount_type: "percent", discount_amount: 10, merchant_id: merchant_1.id) }
     let!(:coupon_2) { Coupon.create(name: "Anotha' One", code: "e23e12", status: "active", discount_type: "currency", discount_amount: 150, merchant_id: merchant_1.id) }
+    let!(:coupon_3) { Coupon.create(name: "Big Money", code: "fdsfsa", status: "active", discount_type: "currency", discount_amount: 2000, merchant_id: merchant_1.id) }
 
     let!(:customer_1) { create(:customer) }
     let!(:invoice_1) { create(:invoice, customer_id: customer_1.id, status: 1, coupon_id: coupon_1.id) } # 1 = completed
@@ -127,13 +128,13 @@ RSpec.describe Invoice, type: :model do
     let!(:customer_4) { create(:customer) }
     let!(:invoice_4) { create(:invoice, customer_id: customer_4.id, status: 2, coupon_id: coupon_1.id) } # 2 = in progress
     let!(:invoice_5) { create(:invoice, customer_id: customer_4.id, status: 1) }
-
+    let!(:invoice_6) { create(:invoice, customer_id: customer_4.id, status: 1, coupon_id: coupon_3.id) }
 
     let!(:invoice_item_1) { create(:invoice_item, invoice: invoice_1, item: item_1, unit_price: 100, quantity: 1) }
     let!(:invoice_item_2) { create(:invoice_item, invoice: invoice_2, item: item_2, unit_price: 1000, quantity: 1) }
 
     let!(:invoice_item_3) { create(:invoice_item, invoice: invoice_3, item: item_2, unit_price: 1000, quantity: 1) }
-    let!(:invoice_item_4) { create(:invoice_item, invoice: invoice_5, item: item_2, unit_price: 1000, quantity: 1) }
+    let!(:invoice_item_4) { create(:invoice_item, invoice: invoice_6, item: item_2, unit_price: 1000, quantity: 1) }
 
     describe "#coupon_discount" do
       it "will calculate the coupon discount for percentage and currency" do
@@ -149,6 +150,10 @@ RSpec.describe Invoice, type: :model do
         expect(invoice_1.grand_total).to eq(90)
         expect(invoice_2.grand_total).to eq(900)
         expect(invoice_3.grand_total).to eq(850)
+      end
+
+      it "returns 0 if the coupons are greater than the revenue" do
+        expect(invoice_6.grand_total).to eq(0)
       end
     end
   end
