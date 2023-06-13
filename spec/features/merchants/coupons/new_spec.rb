@@ -108,6 +108,12 @@ RSpec.describe "/merchants/:id/coupons/new" do
         expect(current_path).to eq(new_merchant_coupon_path(merchant_1))
         expect(page).to have_content("Please fill out all fields and make sure code is unique")
       end
+
+      it "links to coupons index page" do
+        visit merchant_coupon_path(merchant_1, coupon_1)
+        click_link "Back to Coupons Index"
+        expect(current_path).to eq(merchant_coupons_path(merchant_1))
+      end
     end
   end
 end

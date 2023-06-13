@@ -10,6 +10,7 @@ RSpec.describe "merchants/:id/coupons" do
       let!(:coupon_3) { create(:coupon, merchant: merchant_1) }
       let!(:coupon_4) { create(:coupon, merchant: merchant_1) }
       let!(:coupon_5) { create(:coupon, merchant: merchant_1) }
+      let!(:coupon_6) { create(:coupon, merchant: merchant_1) }
 
       # Coupons - User Story 1 (display)
       # User Story 6 - I believe due to the way I've set this up, it covers both stories.
@@ -88,6 +89,14 @@ RSpec.describe "merchants/:id/coupons" do
         click_link "Create New Coupon"
         expect(current_path).to eq(new_merchant_coupon_path(merchant_1))
       end
+
+      it "has a link to the merchants index page" do
+        visit merchant_coupons_path(merchant_1)
+        click_link "Back to My Dashboard"
+        expect(current_path).to eq(merchant_path(merchant_1))
+      end
+
+
     end
   end
 end

@@ -35,6 +35,9 @@ class Merchants::CouponsController < ApplicationController
     if params[:status] == "0" && coupon.pending_invoices?
       redirect_to merchant_coupon_path(merchant, coupon)
       flash[:alert] = "Cannot deactivate coupon with pending invoices"
+    elsif params[:status] == "1" && merchant.active_coupons_at_max?(5)
+      redirect_to merchant_coupon_path(merchant, coupon)
+      flash[:alert] = "Maximum coupons created, please deactivate one to create a new coupon"
     elsif params[:status] == "0"
       coupon.update(status: 0)
       redirect_to merchant_coupon_path(merchant, coupon)

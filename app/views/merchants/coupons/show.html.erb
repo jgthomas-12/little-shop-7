@@ -1,5 +1,7 @@
 <h3> <%= @coupon.name %> Coupin Deets </h3>
 
+<p><%= link_to "Back to Coupons Index", merchant_coupons_path(@merchant) %></p>
+
 <p>Name: <%= @coupon.name %></p>
 <p>Code: <%= @coupon.code %></p>
 <p>Discount Type: <%= @coupon.discount_type %></p>

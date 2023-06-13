@@ -52,31 +52,28 @@ RSpec.describe "/merchants/:id/dashboard" do
       let!(:invoice_item_7) { create(:invoice_item, unit_price: 5000, status: 2, invoice_id: invoice_8.id, item_id: item_7.id) }
 
       it "directs me to the merchants dashboard where I see the merchants name" do
-        # visit "/merchants/#{merchant_1.id}/dashboard"
         visit merchant_path(merchant_1)
 
         expect(page).to have_content(merchant_1.name)
         expect(page).to_not have_content(merchant_2.name)
 
-        # visit "/merchants/#{merchant_2.id}/dashboard"
         visit merchant_path(merchant_2)
         expect(page).to have_content(merchant_2.name)
         expect(page).to_not have_content(merchant_1.name)
       end
 
       it "links to the merchants items index" do
-        # visit "/merchants/#{merchant_1.id}/dashboard"
         visit merchant_path(merchant_1)
 
         click_link "My Items"
-        # expect(current_path).to eq("/merchants/#{merchant_1.id}/items")
+
         expect(current_path).to eq(merchant_items_path(merchant_1))
         expect(page).to have_content("#{merchant_1.name} Items")
-        # visit "/merchants/#{merchant_2.id}/dashboard"
+
         visit merchant_path(merchant_2)
 
         click_link "My Items"
-        # expect(current_path).to eq("/merchants/#{merchant_2.id}/items")
+
         expect(current_path).to eq(merchant_items_path(merchant_2))
         expect(page).to have_content("#{merchant_2.name} Items")
       end
@@ -85,7 +82,7 @@ RSpec.describe "/merchants/:id/dashboard" do
         visit merchant_path(merchant_1)
 
         click_link "My Invoices"
-        # expect(current_path).to eq("/merchants/#{merchant_1.id}/invoices")
+
         expect(current_path).to eq(merchant_invoices_path(merchant_1))
         expect(page).to have_content("#{merchant_1.name} Invoices")
 
