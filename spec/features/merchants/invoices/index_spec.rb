@@ -27,11 +27,13 @@ RSpec.describe "Merchant Invoices Index Page" do
     @invoice_item_5 = create(:invoice_item, invoice_id: @invoice_5.id, item_id: @item_5.id)
   end
 
+  let!(:coupon_1) { create(:coupon, merchant: @merchant_1) }
+  let!(:coupon_2) { create(:coupon, merchant: @merchant_2) }
+
   describe "As a merchant" do
     it "I see all of my invoices on the index page" do
-      # visit "/merchants/#{@merchant_1.id}/invoices"
-      visit merchant_invoices_path(@merchant_1)
 
+      visit merchant_invoices_path(@merchant_1)
 
       expect(page).to have_content("My Invoices")
       expect(page).to have_link("#{@invoice_1.id}")
@@ -40,8 +42,18 @@ RSpec.describe "Merchant Invoices Index Page" do
       expect(page).to_not have_link("#{@invoice_4.id}")
       expect(page).to_not have_link("#{@invoice_5.id}")
       click_link "#{@invoice_1.id}"
-      # expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}")
+
       expect(current_path).to eq(merchant_invoice_path(@merchant_1, @invoice_1))
+    end
+
+    it "won't allow me to use a coupon from a different merchant" do
+      coupon_1.update(code: "hdj234", discount_type: "currency", discount_amount: 340)
+      coupon_2.update(code: "hdj234", discount_type: "currency", discount_amount: 10)
+
+      @invoice_1.update(coupon_id: coupon_2.id)
+
+      visit merchant_invoice_path(@merchant_1, @invoice_1)
+      expect(@invoice_1.revenue).to eq(@invoice_1.grand_total)
     end
   end
 end
